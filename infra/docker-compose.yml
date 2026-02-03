@@ -1,0 +1,42 @@
+services:
+  rabbitmq:
+    image: rabbitmq:latest
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: illustre
+      RABBITMQ_DEFAULT_PASS: ithQW12ink!@
+    configs:
+      - source: rabbitmq-plugins
+        target: /etc/rabbitmq/enabled_plugins
+    volumes:
+      - rabbitmq-lib:/var/lib/rabbitmq/
+      - rabbitmq-log:/var/log/rabbitmq
+
+configs:
+  rabbitmq-plugins:
+    content: "[rabbitmq_management]."  
+
+volumes:
+  rabbitmq-lib:
+    driver: local
+  rabbitmq-log:
+    driver: local
+
+# services:
+#   rabbitmq:
+#     image: 'rabbitmq:3.12-management'
+#     hostname: "rabbitmq"
+#     volumes:
+#       - rabbitmq_data:/var/lib/rabbitmq
+#     ports:
+#       - '5672:5672'
+#       - '15672:15672'
+#     environment:
+#       RABBITMQ_DEFAULT_USER: 'rmuser'
+#       RABBITMQ_DEFAULT_PASS: 'rmpassword'
+# volumes:
+#   rabbitmq_data:
