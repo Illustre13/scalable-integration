@@ -1,0 +1,131 @@
+openapi: 3.0.3
+
+info:
+  title: CRM Mock API
+  description: |
+    Mock CRM system exposing both modern REST endpoints and legacy SOAP services.
+    Used for scalable systems integration and event-driven processing.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8393
+    description: Local WireMock server
+
+paths:
+
+  /customers:
+    get:
+      summary: Retrieve customers
+      description: Returns a list of customers from the CRM system.
+      operationId: getCustomers
+      responses:
+        "200":
+          description: Successful response with customer list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  source:
+                    type: string
+                    example: CRM
+                  generated_at:
+                    type: string
+                    format: date-time
+                  customers:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Customer"
+                  meta:
+                    $ref: "#/components/schemas/Meta"
+        "500":
+          description: CRM service unavailable
+
+  /soap/crm:
+    post:
+      summary: Add customer (SOAP)
+      description: |
+        Legacy SOAP endpoint for creating a new customer in the CRM system.
+        Accepts and returns SOAP XML envelopes.
+      operationId: addCustomerSoap
+      requestBody:
+        required: true
+        content:
+          text/xml:
+            schema:
+              type: string
+              description: SOAP XML request
+              example: |
+                <?xml version="1.0" encoding="UTF-8"?>
+                <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+                  <soap:Body>
+                    <AddCustomer>
+                      <name>Test Corp</name>
+                      <email>test@example.com</email>
+                    </AddCustomer>
+                  </soap:Body>
+                </soap:Envelope>
+      responses:
+        "200":
+          description: Customer successfully created
+          content:
+            text/xml:
+              schema:
+                type: string
+              example: |
+                <?xml version="1.0" encoding="UTF-8"?>
+                <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+                  <soap:Body>
+                    <AddCustomerResponse>
+                      <success>true</success>
+                      <id>999</id>
+                    </AddCustomerResponse>
+                  </soap:Body>
+                </soap:Envelope>
+        "400":
+          description: Invalid SOAP request
+        "500":
+          description: CRM internal error
+
+components:
+
+  schemas:
+
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "101"
+        name:
+          type: string
+          example: Alice Corp
+        email:
+          type: string
+          format: email
+          example: alice@example.com
+        status:
+          type: string
+          enum: [ACTIVE, PENDING, SUSPENDED]
+        tier:
+          type: string
+          enum: [GOLD, SILVER, BRONZE]
+        country:
+          type: string
+          example: Rwanda
+        created_at:
+          type: string
+          format: date-time
+        last_updated:
+          type: string
+          format: date-time
+
+    Meta:
+      type: object
+      properties:
+        record_count:
+          type: integer
+          example: 2
+        api_version:
+          type: string
+          example: v1

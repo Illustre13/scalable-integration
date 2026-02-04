@@ -15,6 +15,15 @@ services:
     volumes:
       - rabbitmq-lib:/var/lib/rabbitmq/
       - rabbitmq-log:/var/log/rabbitmq
+    # The Mock System (CRM + Inventory)
+  wiremock:
+    image: wiremock/wiremock:latest
+    container_name: integration-mocks
+    ports:
+      - "8393:8080"
+    volumes:
+      - ./wiremock-data:/home/wiremock
+    command: --global-response-templating
 
 configs:
   rabbitmq-plugins:
@@ -25,6 +34,8 @@ volumes:
     driver: local
   rabbitmq-log:
     driver: local
+
+
 
 # services:
 #   rabbitmq:

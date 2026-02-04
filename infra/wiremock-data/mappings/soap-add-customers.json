@@ -1,0 +1,22 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/soap/crm",
+    "headers": {
+      "Content-Type": {
+        "contains": "xml"
+      }
+    },
+    "bodyPatterns": [
+      { "contains": "<soap:Body>" },
+      { "contains": "AddCustomer" }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "text/xml; charset=utf-8"
+    },
+    "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n  <soap:Body>\n    <AddCustomerResponse>\n      <success>true</success>\n      <id>999</id>\n    </AddCustomerResponse>\n  </soap:Body>\n</soap:Envelope>"
+  }
+}

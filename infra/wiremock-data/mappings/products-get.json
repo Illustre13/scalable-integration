@@ -1,0 +1,43 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/products"
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": {
+        "source": "InventorySystem",
+        "generated_at": "2023-10-28T12:00:00Z",
+        "products": [
+        { 
+            "sku": "A123", 
+            "name": "Super Widget", 
+            "category": "Electronics",
+            "price": 29.99,
+            "stock": 50,
+            "warehouse": "NY-01",
+            "updatedAt": "2023-10-27T10:00:00Z"
+        },
+        { 
+            "sku": "B456", 
+            "name": "Mega Gadget", 
+            "category": "Electronics",
+            "price": 149.50,
+            "stock": 0,
+            "warehouse": "CA-02",
+            "updatedAt": "2023-10-26T15:30:00Z"
+        },
+        { 
+            "sku": "C789", 
+            "name": "Ergo Chair", 
+            "category": "Furniture",
+            "price": 250.00,
+            "stock": 12,
+            "warehouse": "NY-01",
+            "updatedAt": "2023-10-28T09:15:00Z"
+        }
+        ]
+    }
+  }
+}
