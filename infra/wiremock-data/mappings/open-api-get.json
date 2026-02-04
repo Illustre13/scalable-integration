@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/openapi.yaml"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/yaml"
+    },
+    "bodyFileName": "openapi.yaml"
+  }
+}
