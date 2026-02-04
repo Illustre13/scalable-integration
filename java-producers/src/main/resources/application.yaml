@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: java-producers
+
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: illustre
+    password: ithQW12ink!@
+
+producer:
+  crm:
+    base-url: http://integration-mocks:8080
+  inventory:
+    base-url: http://integration-mocks:8080
