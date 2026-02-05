@@ -88,16 +88,28 @@ This enables each side of the system to scale and fail independently.
 
 Python services act as **workers** that consume messages from RabbitMQ.
 
+**Implementation**: `py-consumers/`
+
 Responsibilities:
 
-* Ensure idempotent processing (no duplicate handling)
-* Enrich orders with inventory data
-* Transform and aggregate data
-* Export results to analytics-ready formats (JSON / CSV)
+* Consume events from `customer_data` and `inventory_data` queues
+* Ensure idempotent processing (no duplicate handling using MD5 hashing)
+* Merge customer and inventory data from multiple sources
+* Forward enriched data to analytics systems with retry logic
+* Handle concurrent processing with thread-safe operations
+
+**Features**:
+- Asynchronous message consumption using `pika`
+- Thread-safe data merging with locking mechanisms
+- Exponential backoff retry strategy for external API calls
+- Graceful shutdown handling (SIGINT/SIGTERM)
+- Comprehensive error handling and logging
+
+See [py-consumers/SETUP.md](py-consumers/SETUP.md) for detailed setup instructions.
 
 ---
 
-## Key Engineering Concepts Demonstrated
+### Key Engineering Concepts Demonstrated
 
 * Event-driven architecture
 * Polyglot microservices (Java + Python)
@@ -109,7 +121,7 @@ Responsibilities:
 
 ---
 
-## Repository Structure
+### Repository Structure
 
 ```
 scalable-integration-assignment/
@@ -118,6 +130,64 @@ scalable-integration-assignment/
 ├── py-consumers/          # Python processing workers
 ├── .github/                   # CI/CD workflows
 └── README.md                  # Project documentation
+```
+
+### Python Consumers - Event Processing Layer
+
+This module consumes messages from RabbitMQ queues, merges data from multiple sources, and forwards enriched data to downstream analytics systems.
+
+### Features
+
+- **Asynchronous message consumption** from RabbitMQ
+- **Idempotency** handling to prevent duplicate processing
+- **Data merging** from customer and inventory events
+- **Retry logic** for external API calls
+- **Concurrent processing** of multiple queues
+
+### Setup
+
+1. **Install dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. **Configure environment**:
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
+
+3. **Run consumers**:
+   ```bash
+   python main.py
+   ```
+
+### Architecture
+
+```
+RabbitMQ Queues
+    ├── customer_data   → CustomerConsumer
+    └── inventory_data  → InventoryConsumer
+                              ↓
+                        DataMerger (with idempotency)
+                              ↓
+                        AnalyticsForwarder
+                              ↓
+                        Analytics System
+```
+
+### Message Format
+
+Messages follow the `CanonicalEvent` structure from Java producers:
+
+```json
+{
+  "source": "CRM",
+  "timestamp": "2026-02-05T10:30:00Z",
+  "payload": {
+    "rawData": "{...}"
+  }
+}
 ```
 
 ---
