@@ -3,13 +3,13 @@ spring:
     name: java-producers
 
   rabbitmq:
-    host: rabbitmq
+    host: localhost
     port: 5672
     username: illustre
     password: ithQW12ink!@
 
 producer:
   crm:
-    base-url: http://integration-mocks:8080
+    base-url: http://localhost:8393
   inventory:
-    base-url: http://integration-mocks:8080
+    base-url: http://localhost:8393

@@ -1,6 +1,10 @@
 package com.integration.java_producers.model;
 
-public class CustomerPayload {
+import java.io.Serializable;
+
+public class CustomerPayload implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String rawData;
 
     public CustomerPayload(String rawData) {

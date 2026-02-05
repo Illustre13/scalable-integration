@@ -21,7 +21,7 @@ public class EventPublisher {
     }
 
     public void publishInventoryEvent(Object event) {
-        rabbitTemplate.convertAndSend("inventory_data", event); 
+        rabbitTemplate.convertAndSend(RabbitMQConfig.INVENTORY_QUEUE, event); 
         //still passing the string here ...................
         // both ways stillll works ....
     }

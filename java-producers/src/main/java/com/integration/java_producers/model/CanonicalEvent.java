@@ -1,8 +1,9 @@
 package com.integration.java_producers.model;
 
 import java.time.Instant;
-
-public class CanonicalEvent<T> {
+import java.io.Serializable;
+public class CanonicalEvent<T> implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String source;
     private Instant timestamp;

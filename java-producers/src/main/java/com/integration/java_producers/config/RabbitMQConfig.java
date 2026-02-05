@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
 
     public static final String CUSTOMER_QUEUE = "customer_data";
-    // public static final String INVENTORY_QUEUE = "inventory_data";
+    public static final String INVENTORY_QUEUE = "inventory_data";
 
     @Bean
     public Queue customerQueue() {
@@ -20,6 +20,7 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue inventoryQueue() {
-        return new Queue("inventory_data", true);
+        // return new Queue("inventory_data", true);
+        return new Queue(INVENTORY_QUEUE, true);
     }
 }

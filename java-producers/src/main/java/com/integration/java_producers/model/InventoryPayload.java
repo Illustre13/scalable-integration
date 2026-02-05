@@ -1,6 +1,10 @@
 package com.integration.java_producers.model;
 
-public class InventoryPayload {
+import java.io.Serializable;
+
+public class InventoryPayload implements Serializable{
+    private static final long serialVersionUID = 1L;
+    
     private String rawData;
 
     public InventoryPayload(String rawData) {
