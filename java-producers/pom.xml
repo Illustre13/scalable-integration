@@ -67,8 +67,17 @@
 			<artifactId>aspectjweaver</artifactId>
 			<version>1.9.22</version>
 		</dependency>
+	<!-- Jackson for JSON serialization in RabbitMQ messages -->
+	<dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-databind</artifactId>
+	</dependency>
+	<!-- Jackson JSR310 for Java 8 date/time types (Instant, LocalDateTime, etc.) -->
+	<dependency>
+		<groupId>com.fasterxml.jackson.datatype</groupId>
+		<artifactId>jackson-datatype-jsr310</artifactId>
+	</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -77,5 +86,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
