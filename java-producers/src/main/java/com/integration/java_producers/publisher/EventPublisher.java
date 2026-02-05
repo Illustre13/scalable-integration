@@ -1,5 +1,28 @@
 package com.integration.java_producers.publisher;
 
+import com.integration.java_producers.config.RabbitMQConfig;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.stereotype.Component;
+
+@Component
 public class EventPublisher {
-    
+
+    private final RabbitTemplate rabbitTemplate;
+
+    public EventPublisher(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
+    }
+
+    public void publishCustomerEvent(Object event) {
+        rabbitTemplate.convertAndSend(
+                RabbitMQConfig.CUSTOMER_QUEUE, // using the constant for the customer queue
+                event
+        );
+    }
+
+    public void publishInventoryEvent(Object event) {
+        rabbitTemplate.convertAndSend("inventory_data", event); 
+        //still passing the string here ...................
+        // both ways stillll works ....
+    }
 }
